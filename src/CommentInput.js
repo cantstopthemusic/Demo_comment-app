@@ -1,10 +1,15 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 class CommentInput extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func,
+  };
   constructor() {
     super();
     this.state = {
       username: "",
       content: "",
+      createdtime: "",
     };
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
@@ -22,13 +27,37 @@ class CommentInput extends Component {
   }
   handleSubmit() {
     if (this.props.onSubmit) {
-      const { username, content } = this.state;
-      this.props.onSubmit({ username, content });
+      this.props.onSubmit({
+        username: this.state.username,
+        content: this.state.content,
+        createdtime: +new Date(),
+      });
     }
     this.setState({
       content: "",
     });
   }
+  handleUsernameBlur(event) {
+    this._saveUsername(event.target.value);
+  }
+
+  _saveUsername(username) {
+    localStorage.setItem("username", username);
+  }
+  _loadUsername() {
+    const name = localStorage.getItem("username");
+    if (name) {
+      this.setState({ username: name });
+    }
+  }
+
+  componentWillMount() {
+    this._loadUsername();
+  }
+  componentDidMount() {
+    this.textarea.focus();
+  }
+
   render() {
     return (
       <div className="comment-input">
@@ -37,6 +66,7 @@ class CommentInput extends Component {
           <div className="comment-feild-input">
             <input
               value={this.state.username}
+              onBlur={this.handleUsernameBlur.bind(this)}
               onChange={this.handleUsernameChange}
             />
           </div>
@@ -47,6 +77,7 @@ class CommentInput extends Component {
             <textarea
               value={this.state.content}
               onChange={this.handleContentChange}
+              ref={(textarea) => (this.textarea = textarea)}
             ></textarea>
           </div>
           <div className="comment-field-button">
