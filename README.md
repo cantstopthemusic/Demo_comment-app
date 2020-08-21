@@ -1,3 +1,6 @@
+# 评论页面 Demo
+## 感谢胡子大哈的React.js小书，此仓库是参照胡子大哈的教程从零搭建的一个评论页面的demo，具备了添加删除评论，显示评论发布时间的功能。除了本身的功能以外，进行这个demo的练习的目的其实是为了更好地理解React以及React-Redux的设计理念和源码。
+## 技术栈：HTML/JavaScript/React/Css
 <<<<<<< HEAD
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
